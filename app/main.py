@@ -1,6 +1,6 @@
 from flask import Flask
 import json
-import database
+from app import database
 
 app = Flask(__name__)
 GET = ['GET']

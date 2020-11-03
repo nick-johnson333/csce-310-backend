@@ -1,5 +1,9 @@
 ## To Run:
 
+`python wsgi.py`
+
+Or if that doesn't work:
+
 ### for Windows:
 
 `venv\Scripts\activate`
