@@ -1,36 +1,23 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 import json
 from flask_cors import CORS
-from app import database
+from app import database, DatabaseException
 
 app = Flask(__name__)
 CORS(app)
-GET = ['GET']
-POST = ['POST']
-PUT = ['PUT']
-DELETE = ['DELETE']
 
-@app.route('/')
-def hello():
-    return 'Hello, World 2'
-
-@app.route('/user_suggestions', methods=['GET','POST'])
+@app.route('/', methods=['POST'])
 def get_user_messages():
-    if request.method == 'GET':
-        data = {}
-        data['data']  = database.getAllFromUserSuggestionsTable()
-        return json.dumps(data)
-    elif request.method == 'POST':
-        request_data = json.loads(request.data)
-        data = {}
-        data['result'] = database.addUserSuggestionToDatabase(request_data["user_name"],request_data["suggestion"])
-        return json.dumps(data)
-    elif request.method == 'DELETE':
-        request_data = json
-
-@app.route('/user_suggestions/<int:suggestion_id>',methods=['DELETE'])
-def delete_suggestion(suggestion_id):
+    request_data = json.loads(request.data)
+    query_string = request_data['query']
     data = {}
-    data['result'] = database.removeUserSuggestion(suggestion_id)
-    return json.dumps(data)
+    data['result'] = database.executeQuery(query_string)
+    return Response(json.dumps(data), status=201, mimetype='application/json')
+
+@app.errorhandler(DatabaseException.DatabaseException)
+def handle_sql_exception(e):
+    return Response(json.dumps({
+        "error_type": e.error_type,
+        "description": e.message
+    }), status=e.code, mimetype='application/json')
 
