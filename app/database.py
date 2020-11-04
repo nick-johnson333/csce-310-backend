@@ -48,3 +48,35 @@ def getAllFromUserSuggestionsTable():
     cur.close()
     close_db() # HAVE AT END OF ALL FUNCTIONS
     return data
+
+def addUserSuggestionToDatabase(user_name, suggestion):
+    global conn
+    print('here')
+    try:
+        open_db()
+        cur = conn.cursor()
+        print('pre execute')
+        cur.execute(f'''insert into user_suggestions (user_name, suggestion) values('{user_name}','{suggestion}');''');
+        conn.commit()
+        print('post execute')
+        cur.close()
+        close_db()
+        return 'Success'
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(error)
+        return 'Error'
+
+def removeUserSuggestion(suggestion_id):
+    try:
+        open_db()
+        cur = conn.cursor()
+        print('pre execute')
+        cur.execute(f'''delete from user_suggestions where id = {suggestion_id}''');
+        conn.commit()
+        print('post execute')
+        cur.close()
+        close_db()
+        return 'Success'
+    except(Exception, psycopg2.DatabaseError) as error:
+        print(error)
+        return 'Error'
