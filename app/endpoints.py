@@ -17,6 +17,7 @@ def run_query():
 
 
 @app.route('/players', methods=['GET'])
+@app.route('/players/', methods=['GET'])
 def get_players():
     return Response(
         json.dumps({'result': service.get_players(position=request.args.get('position'),
@@ -30,6 +31,7 @@ def get_players():
 
 
 @app.route('/games', methods=['GET'])
+@app.route('/games/', methods=['GET'])
 def get_games():
     return Response(
         json.dumps({'result': service.get_games(team_a=request.args.get('team_a'),
@@ -41,6 +43,7 @@ def get_games():
 
 
 @app.route('/seasons', methods=['GET'])
+@app.route('/seasons/', methods=['GET'])
 def get_season():
     return Response(
         json.dumps({'result': service.get_season(team=request.args.get('team')
@@ -50,6 +53,7 @@ def get_season():
 
 
 @app.route('/teams', methods=['GET'])
+@app.route('/teams/', methods=['GET'])
 def get_team():
     return Response(
         json.dumps({'result': service.get_team(name=request.args.get('name')
@@ -59,6 +63,7 @@ def get_team():
 
 
 @app.route('/user_suggestions',methods=['GET'])
+@app.route('/user_suggestions/',methods=['GET'])
 def get_user_suggestions():
     return Response(
         json.dumps({'result': service.get_suggestions(limit=request.args.get('limit')
@@ -68,6 +73,7 @@ def get_user_suggestions():
 
 
 @app.route('/user_suggestions',methods=['POST'])
+@app.route('/user_suggestions/',methods=['POST'])
 def post_user_suggestion():
     request_data = json.loads(request.data)
     return Response(
