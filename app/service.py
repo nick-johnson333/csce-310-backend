@@ -1,4 +1,4 @@
-from app.database import executeQuery, select, insert
+from app.database import executeQuery, select, insert, delete
 from app.BlankException import BlankException
 from app.position_mappings import POSITION_MAPPINGS
 
@@ -301,3 +301,8 @@ def post_user_suggestion(request_data):
         raise BlankException(f'''There is no field [suggestion] in the request body''')
 
     return insert('user_suggestions', user_name=user_name, suggestion=suggestion)
+
+
+def delete_suggestion(suggestion_id):
+    suggestion_id = convert_to_int(id=suggestion_id)[0]
+    return delete('user_suggestions', id=suggestion_id)

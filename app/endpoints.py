@@ -82,6 +82,16 @@ def post_user_suggestion():
         mimetype='application/json')
 
 
+@app.route('/user_suggestions',methods=['DELETE'])
+@app.route('/user_suggestions/',methods=['DELETE'])
+def delete_user_suggestion():
+    return Response(
+        json.dumps({'result': service.delete_suggestion(suggestion_id=request.args.get('id')
+                                                      )}),
+        status=200,
+        mimetype='application/json')
+
+
 @app.errorhandler(BlankException.BlankException)
 def handle_sql_exception(e):
     return Response(json.dumps({

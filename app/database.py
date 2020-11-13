@@ -68,6 +68,7 @@ def build_insert_clause(**kwargs):
     columns = ''
     values = ''
     for (key, val) in kwargs.items():
+        val = val.replace("'","''")
         columns += (key + ',')
         values += ("'" + str(val) + "',")
     columns = columns[:-1]
@@ -85,5 +86,12 @@ def select(table_name, limit, **kwargs):
 def insert(table_name, **kwargs):
     query_string = f'''insert into {table_name}'''
     query_string += build_insert_clause(**kwargs)
+    query_string += ';'
+    return executeQuery(query_string)
+
+
+def delete(table_name, **kwargs):
+    query_string = f'''delete from {table_name}'''
+    query_string += build_where_clause(**kwargs)
     query_string += ';'
     return executeQuery(query_string)

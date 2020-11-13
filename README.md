@@ -287,6 +287,24 @@ Sample Return:
 }
 ```
 
+### Delete User Suggestion
+Endpoint: [DELETE] `/user_suggestions?id=<int>`
+
+Description: All params are *required*.
+
+This endpoint will remove the suggestion to the database.
+
+Possible Errors:
+* 400 if params are mistyped (ex. if you enter a string for id)
+
+Sample Return: 
+
+```
+{ 
+    "result": 'Success'
+}
+```
+
 ## To Run Locally:
 
 `python wsgi.py`
