@@ -1,6 +1,6 @@
 # Kicker's Almanac Backend
 
-##Endpoints that this app provides:
+## Endpoints that this app provides:
 
 ### Post Your Own Query
 Endpoint: [POST] `/`
