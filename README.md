@@ -296,6 +296,7 @@ This endpoint will remove the suggestion to the database.
 
 Possible Errors:
 * 400 if params are mistyped (ex. if you enter a string for id)
+* 400 if id param is missing
 
 Sample Return: 
 

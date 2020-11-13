@@ -304,5 +304,7 @@ def post_user_suggestion(request_data):
 
 
 def delete_suggestion(suggestion_id):
+    if suggestion_id is None:
+        raise BlankException(f'''The parameter [id] is required''')
     suggestion_id = convert_to_int(id=suggestion_id)[0]
     return delete('user_suggestions', id=suggestion_id)
