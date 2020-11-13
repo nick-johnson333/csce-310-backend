@@ -1,5 +1,5 @@
 import psycopg2
-from app.DatabaseException import DatabaseException
+from app.BlankException import BlankException
 
 conn = None
 def open_db():
@@ -34,6 +34,7 @@ def build_dicts(cursor, rows: list):
     return all_data
 
 def executeQuery(query_string):
+    print("QUERY:",query_string)
     try:
         open_db()
         cur = conn.cursor()
@@ -47,4 +48,42 @@ def executeQuery(query_string):
             return data
         return 'Success'
     except(Exception, psycopg2.DatabaseError) as error:
-        raise DatabaseException(error)
+        raise BlankException(error)
+
+
+def build_where_clause(**kwargs):
+    any_not_none = False
+    clause = ' where '
+    for(key,val) in kwargs.items():
+        if val is None:
+            continue
+        clause += f'''{key} = '{val}' and '''
+        any_not_none = True
+    if any_not_none is False:
+        return ''
+    return clause[:-4]
+
+
+def build_insert_clause(**kwargs):
+    columns = ''
+    values = ''
+    for (key, val) in kwargs.items():
+        columns += (key + ',')
+        values += ("'" + str(val) + "',")
+    columns = columns[:-1]
+    values = values[:-1]
+    return f'''({columns}) values ({values})'''
+
+
+def select(table_name, limit, **kwargs):
+    query_string = f'''select * from {table_name} '''
+    query_string += build_where_clause(**kwargs)
+    query_string += f'''limit {limit};'''
+    return executeQuery(query_string)
+
+
+def insert(table_name, **kwargs):
+    query_string = f'''insert into {table_name}'''
+    query_string += build_insert_clause(**kwargs)
+    query_string += ';'
+    return executeQuery(query_string)
