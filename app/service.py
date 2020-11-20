@@ -165,6 +165,7 @@ def get_player_stats(name, position):
     except KeyError as _:
         stat_type = None
 
+    name = name.replace("'","''")
     if stat_type is "rushing":
         return get_rushing_stats(name)
     elif stat_type is "passing":
