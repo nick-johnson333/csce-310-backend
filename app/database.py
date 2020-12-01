@@ -100,4 +100,6 @@ def delete(table_name, **kwargs):
     return executeQuery(query_string)
 
 def clean_string(string:str):
+    if type(string) is not str:
+        return string
     return string.strip().replace("'", "''")
