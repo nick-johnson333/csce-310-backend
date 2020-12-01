@@ -57,6 +57,8 @@ def build_where_clause(**kwargs):
     for(key,val) in kwargs.items():
         if val is None:
             continue
+        val = clean_string(val)
+        key = clean_string(key)
         clause += f'''{key} = '{val}' and '''
         any_not_none = True
     if any_not_none is False:
@@ -68,7 +70,8 @@ def build_insert_clause(**kwargs):
     columns = ''
     values = ''
     for (key, val) in kwargs.items():
-        val = val.replace("'","''")
+        key = clean_string(key)
+        val = clean_string(val)
         columns += (key + ',')
         values += ("'" + str(val) + "',")
     columns = columns[:-1]
@@ -95,3 +98,6 @@ def delete(table_name, **kwargs):
     query_string += build_where_clause(**kwargs)
     query_string += ';'
     return executeQuery(query_string)
+
+def clean_string(string:str):
+    return string.strip().replace("'", "''")
