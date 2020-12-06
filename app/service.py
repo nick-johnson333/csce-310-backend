@@ -180,9 +180,20 @@ def get_player_stats(name, position):
         return get_null_stats()
 
 
+def int_height_to_string(height: int):
+    INCHES_PER_FEET = 12
+    feet = int(height / INCHES_PER_FEET)
+    inches = height % INCHES_PER_FEET
+    return f'''{feet}'{inches}"'''
+
 def get_players(position, team, height, weight, limit):
     (weight, limit) = convert_to_int(weight=weight, limit=limit)
-
+    if height is not None:
+        try:
+            height = int(height)
+            height = int_height_to_string(height)
+        except ValueError as _:
+            pass
     raw_players = select('players', limit, position=position, team=team, height=height, weight=weight)
     players = []
     for raw_player in raw_players:
