@@ -3,6 +3,12 @@ from app.BlankException import BlankException
 from app.position_mappings import POSITION_MAPPINGS
 
 
+def toInt(x):
+    try:
+        return int(x)
+    except TypeError as _:
+        return None
+
 def convert_to_int(**kwargs):
     converted_args = []
     for (key, val) in kwargs.items():
@@ -119,10 +125,10 @@ def get_kicking_stats(name):
         'games': data['games_played'],
         'fg_attempted': data['fg_attempted'],
         'fg_made': data['fg_made'],
-        'fg_percentage': int(data['fg_percentage']*100),
+        'fg_percentage': toInt(data['fg_percentage']*100),
         'xp_attempted': data['xp_attempted'],
         'xp_made': data['xp_made'],
-        'xp_percentage': int(data['xp_percentage']*100),
+        'xp_percentage': toInt(data['xp_percentage']*100),
         'kickoffs': data['kickoffs'],
         'kickoff_yards': data['kickoff_yards'],
         'kickoff_avg': data['kickoff_avg'],
@@ -145,7 +151,7 @@ def get_receiving_stats(name):
         'games': data['games'],
         'games_starting': data['games_starting'],
         'receptions': data['receptions'],
-        'reception_percent': int(data['catch_percent']*100),
+        'reception_percent': toInt(data['catch_percent']*100),
         'receptions_per_game': data['catches_per_game'],
         'yards': data['yards'],
         'yards_per_catch': data['yards_per_catch'],
@@ -200,7 +206,7 @@ def get_players(position, team, height, weight, limit):
         player = {'name': raw_player['name'],
                   'team': raw_player['team'],
                   'number': raw_player['number'],
-                  'weight': int(raw_player['weight']),
+                  'weight': toInt(raw_player['weight']),
                   'height': raw_player['height'],
                   'age': raw_player['age'],
                   'birthday': str(raw_player['birthday']),
@@ -241,7 +247,7 @@ def get_games(team_a, team_b, limit):
             winner = 'tie'
 
         games.append({
-            'date':str(raw_game['date']),
+            'date': str(raw_game['date']),
             'away_team': raw_game['away_team'],
             'home_team': raw_game['home_team'],
             'away_score': raw_game['away_score'],
